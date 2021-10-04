@@ -61,12 +61,12 @@ export default class CreateNote extends Component {
     render() {
         return (
             <div className="col-md-6 offset-md-3">
-                <div className="card card-body">
+                <div className="card card-body ">
                     <h2>Create a new note</h2>
 
                     {/* Select User*/}
 
-                    <div className="form-group">
+                    <div className="form-group" style={{marginBottom:"1rem"}}>
                         <select className="form-control" name="userSelected"
                         onChange={this.onChange} value={this.state.userSelected}>
                             {
@@ -80,16 +80,16 @@ export default class CreateNote extends Component {
                         </select>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group" style={{marginBottom:"1rem"}}>
                         <input className="form-control" type="text" placeholder="Title" name="title" onChange={this.onChange} value={this.state.title} required/>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group" style={{marginBottom:"1rem"}}>
                         <textarea name="content" placeholder="Content" onChange={this.onChange} value={this.state.content} required>
                         </textarea>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group" style={{marginBottom:"1rem"}}> 
                         <DatePicker className="form-control" selected={this.state.date} onChange={this.onChangeDate}/>
                     </div>
 
