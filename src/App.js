@@ -12,10 +12,13 @@ function App() {
     <Router>
       <Navigation />
 
-      <Route exact path="/" component={NoteList} />
-      <Route path="/edit/:id" component={CreateNote} />
-      <Route path="/create" component={CreateNote} />
-      <Route path="/user" component={CreateUser} />
+      <div className="container p-4">
+        <Route exact path="/" component={NoteList} />
+        <Route path="/edit/:id" component={CreateNote} />
+        <Route path="/create" component={CreateNote} />
+        <Route path="/user" component={CreateUser} />
+      </div>
+
     </Router>
   );
 }
