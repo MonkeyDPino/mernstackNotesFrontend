@@ -10,24 +10,43 @@ export default class CreateNote extends Component {
         userSelected:"",
         title:"",
         content:"",
-        date:new Date()
+        date:new Date(),
+        editing:false,
+        _id:""
     }
 
     async componentDidMount(){
         const res = await axios.get("http://localhost:4000/api/users")
         const usernames = res.data.map(user =>user.username)
         this.setState({ users:usernames, userSelected:usernames[0] })
+        if(this.props.match.params){
+            const res = await axios.get("http://localhost:4000/api/notes/"+this.props.match.params.id)
+            this.setState({ 
+                editing:true ,
+                _id:this.props.match.params.id,
+                title:res.data.title,
+                content:res.data.content,
+                date:new Date(res.data.date),
+                userSelected:res.data.author,
+            })
+        }
     }
 
     onSubmit= async (e)=>{
-        e.preventDefault();
         const newNote={
             title:this.state.title,
             content:this.state.content,
             date:this.state.date,
             author:this.state.userSelected
         }
-        await axios.post("http://localhost:4000/api/notes",newNote)
+
+        if(this.state.editing){
+            await axios.put("http://localhost:4000/api/notes/"+this.state._id,newNote)
+
+        }else{
+            await axios.post("http://localhost:4000/api/notes",newNote)
+        }
+        e.preventDefault();
         window.location.href="/"
     };
 
@@ -49,7 +68,7 @@ export default class CreateNote extends Component {
 
                     <div className="form-group">
                         <select className="form-control" name="userSelected"
-                        onChange={this.onChange}>
+                        onChange={this.onChange} value={this.state.userSelected}>
                             {
                                 this.state.users.map(user => 
                                 <option key={user} value={user}>
@@ -62,11 +81,11 @@ export default class CreateNote extends Component {
                     </div>
 
                     <div className="form-group">
-                        <input className="form-control" type="text" placeholder="Title" name="title" onChange={this.onChange} required/>
+                        <input className="form-control" type="text" placeholder="Title" name="title" onChange={this.onChange} value={this.state.title} required/>
                     </div>
 
                     <div className="form-group">
-                        <textarea name="content" placeholder="Content" onChange={this.onChange} required>
+                        <textarea name="content" placeholder="Content" onChange={this.onChange} value={this.state.content} required>
                         </textarea>
                     </div>
 
